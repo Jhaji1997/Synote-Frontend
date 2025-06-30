@@ -1,10 +1,7 @@
-function App() {
+import SignUpForm from "./components/signUpForm.jsx";
 
-  return (
-    <div className="text-4xl text-orange-400">
-      Tailwind Check
-    </div>
-  )
+function App() {
+  return <SignUpForm></SignUpForm>;
 }
 
-export default App
+export default App;
