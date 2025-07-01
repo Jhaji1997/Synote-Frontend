@@ -1,7 +1,9 @@
-import SignUpForm from "./components/signUpForm.jsx";
+import SignUpForm from "./components/forms/signUpForm.jsx";
+import LandingNav from "./components/landingPage/landingNav.jsx";
+import LoginForm from "./components/forms/loginForm.jsx";
 
 function App() {
-  return <SignUpForm></SignUpForm>;
+  return <LoginForm></LoginForm>;
 }
 
 export default App;

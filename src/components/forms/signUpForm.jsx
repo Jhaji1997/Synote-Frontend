@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
-import { registerUser } from "../services/authService";
+import { registerUser } from "../../services/authService";
+import clsx from "clsx";
+import Button from "../ui/button.jsx";
 
 const signupSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -24,19 +26,19 @@ function SignUpForm() {
     try {
       const responseData = await registerUser(data);
       console.log("Signup Successful", responseData);
-      setServerError(""); // clear error if any
+      setServerError("");
     } catch (err) {
       setServerError(err?.response?.data?.message || "Signup Failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 w-full max-w-md transition-colors duration-300"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Sign Up
         </h2>
 
@@ -44,8 +46,12 @@ function SignUpForm() {
           <p className="text-red-500 text-sm mb-4 text-center">{serverError}</p>
         )}
 
+        {/* Name Field */}
         <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
+          <label
+            htmlFor="name"
+            className="block text-gray-700 dark:text-gray-200 font-semibold mb-2"
+          >
             Name
           </label>
           <input
@@ -53,15 +59,24 @@ function SignUpForm() {
             id="name"
             {...register("name")}
             placeholder="Enter your name"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={clsx(
+              "w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2",
+              errors.name
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-blue-500"
+            )}
           />
           {errors.name && (
             <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
           )}
         </div>
 
+        {/* Email Field */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+          <label
+            htmlFor="email"
+            className="block text-gray-700 dark:text-gray-200 font-semibold mb-2"
+          >
             Email
           </label>
           <input
@@ -69,15 +84,24 @@ function SignUpForm() {
             id="email"
             {...register("email")}
             placeholder="Enter your email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={clsx(
+              "w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2",
+              errors.email
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-blue-500"
+            )}
           />
           {errors.email && (
             <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
           )}
         </div>
 
+        {/* Password Field */}
         <div className="mb-6">
-          <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
+          <label
+            htmlFor="password"
+            className="block text-gray-700 dark:text-gray-200 font-semibold mb-2"
+          >
             Password
           </label>
           <input
@@ -85,20 +109,26 @@ function SignUpForm() {
             id="password"
             {...register("password")}
             placeholder="Enter your password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={clsx(
+              "w-full px-4 py-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2",
+              errors.password
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 dark:border-gray-600 focus:ring-blue-500"
+            )}
           />
           {errors.password && (
             <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>
           )}
         </div>
 
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+          isLoading={isSubmitting}
+          fullWidth
         >
-          {isSubmitting ? "Signing Up..." : "Sign Up"}
-        </button>
+          Sign Up
+        </Button>
       </form>
     </div>
   );
