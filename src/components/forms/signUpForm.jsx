@@ -33,12 +33,12 @@ function SignUpForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
+    <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 bg-light-background dark:bg-gray-900 transition-colors duration-300">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 w-full max-w-md transition-colors duration-300"
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-8 w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Sign Up
         </h2>
 
@@ -117,18 +117,31 @@ function SignUpForm() {
             )}
           />
           {errors.password && (
-            <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          isLoading={isSubmitting}
-          fullWidth
-        >
-          Sign Up
-        </Button>
+        {/* Submit Button */}
+        <div className="mb-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
+            fullWidth
+          >
+            Sign Up
+          </Button>
+        </div>
+
+        {/* Footer */}
+        <div className="text-sm flex justify-center gap-1 dark:text-gray-300 text-gray-700 mt-2">
+          <span>Already a user?</span>
+          <button type="button" className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400">
+            Login
+          </button>
+        </div>
       </form>
     </div>
   );

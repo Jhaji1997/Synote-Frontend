@@ -32,7 +32,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
+    <div className="flex items-center justify-center min-h-screen bg-light-background dark:bg-gray-900 px-4 transition-colors duration-300">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 w-full max-w-md transition-colors duration-300"
@@ -103,6 +103,13 @@ function LoginForm() {
         >
           Login
         </Button>
+
+        <div className="text-sm flex justify-center gap-1 dark:text-gray-300 text-gray-700 mt-2">
+          <span>Don't have an account?</span>
+          <button type="button" className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400">
+            SignUp
+          </button>
+        </div>
       </form>
     </div>
   );
