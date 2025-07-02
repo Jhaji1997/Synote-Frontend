@@ -5,7 +5,21 @@ export const registerUser = async (formData) => {
   return response.data;
 };
 
-export const loginUser=async(formData)=>{
-  const response=await axios.post("/users/login",formData);
-  return response.data
-}
+export const loginUser = async (formData) => {
+  const response = await axios.post("/users/login", formData);
+  return response.data;
+};
+
+export const logoutUser = async () => {
+  const response = await axios.post("/users/logout");
+  return response.data;
+};
+
+export const refreshAccessToken = async () => {
+  const response = await axios.post("/users/refresh-tokens");
+  return response.data;
+};
+
+export const getCurrentUser = async () => {
+  const response = await axios.get("/users/me");
+};
