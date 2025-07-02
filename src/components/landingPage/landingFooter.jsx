@@ -29,22 +29,28 @@ function LandingFooter() {
             <FaGithub />
           </a>
           <a
-            href="#"
+            href="https://www.linkedin.com/in/singharyanthakur/"
             aria-label="LinkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
           >
             <FaLinkedin />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com/ary._.an._/"
             aria-label="Instagram"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
           >
             <FaInstagram />
           </a>
           <a
-            href="#"
+            href="https://www.facebook.com/profile.php?id=100033277823781"
             aria-label="Facebook"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             <FaFacebook />
