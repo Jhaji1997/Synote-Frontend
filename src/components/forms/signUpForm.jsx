@@ -5,6 +5,7 @@ import { useState } from "react";
 import { registerUser } from "../../services/authService";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
+import { Link } from "react-router-dom";
 
 const signupSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -138,9 +139,14 @@ function SignUpForm() {
         {/* Footer */}
         <div className="text-sm flex justify-center gap-1 dark:text-gray-300 text-gray-700 mt-2">
           <span>Already a user?</span>
-          <button type="button" className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400">
-            Login
-          </button>
+          <Link to={"/login"}>
+            <button
+              type="button"
+              className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Login
+            </button>
+          </Link>
         </div>
       </form>
     </div>

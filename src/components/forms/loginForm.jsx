@@ -5,6 +5,7 @@ import { useState } from "react";
 import { loginUser } from "../../services/authService";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
+import { Link } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -23,7 +24,7 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await loginUser(data); 
+      const response = await loginUser(data);
       console.log("Login successful", response);
       setServerError("");
     } catch (err) {
@@ -91,7 +92,9 @@ function LoginForm() {
             )}
           />
           {errors.password && (
-            <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>
+            <p className="text-sm text-red-500 mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
@@ -106,9 +109,14 @@ function LoginForm() {
 
         <div className="text-sm flex justify-center gap-1 dark:text-gray-300 text-gray-700 mt-2">
           <span>Don't have an account?</span>
-          <button type="button" className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400">
-            SignUp
-          </button>
+          <Link to={"/register"}>
+            <button
+              type="button"
+              className="cursor-pointer font-semibold text-blue-600 hover:underline dark:text-blue-400"
+            >
+              SignUp
+            </button>
+          </Link>
         </div>
       </form>
     </div>
