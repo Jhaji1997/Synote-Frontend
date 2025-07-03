@@ -3,6 +3,7 @@ import {
   registerUser as registerAPI,
   loginUser as loginAPI,
   logoutUser as logoutAPI,
+  updateAvatar as updateAvatarAPI,
   getCurrentUser,
   refreshAccessToken,
 } from "../services/authService.js";
@@ -70,6 +71,19 @@ export const fetchCurrentUser = createAsyncThunk(
       return user;
     } catch (err) {
       return thunkAPI.rejectWithValue("Token refresh failed");
+    }
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  "auth/updateAvatar",
+  async (avatarImage, thunkAPI) => {
+    try {
+      await updateAvatarAPI(avatarImage);
+      const user = await getCurrentUser();
+      return user;
+    } catch (err) {
+      return thunkAPI.rejectWithValue("Avatar updation failed");
     }
   }
 );
@@ -161,6 +175,20 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Logout failed";
+      })
+
+      //avatar update
+      .addCase(updateAvatar.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateAvatar.fulfilled, (state,action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateAvatar.rejected, (state,action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to update avatar";
       });
   },
 });

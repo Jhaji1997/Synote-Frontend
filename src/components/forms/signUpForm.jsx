@@ -37,7 +37,7 @@ function SignUpForm() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate("/avatar");
     }
   }, [isAuthenticated]);
 

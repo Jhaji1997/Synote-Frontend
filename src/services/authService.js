@@ -24,3 +24,8 @@ export const getCurrentUser = async () => {
   const response = await axios.get("/users/me");
   return response.data;
 };
+
+export const updateAvatar = async (avatarImage) => {
+  const response = await axios.patch("/users/me",{avatarImage});
+  return response.data;
+};
