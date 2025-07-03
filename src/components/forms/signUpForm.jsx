@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const signupSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -23,11 +25,21 @@ function SignUpForm() {
   });
 
   const dispatch = useDispatch();
-  const { loaading, error, user } = useSelector((state) => state.auth);
+  const { loaading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   const onSubmit = (data) => {
     dispatch(registerUser(data));
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 bg-light-background dark:bg-gray-900 transition-colors duration-300">

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email"),
@@ -21,8 +23,18 @@ function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   const onSubmit = (data) => {
     dispatch(loginUser(data));
