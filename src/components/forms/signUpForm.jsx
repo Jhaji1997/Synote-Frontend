@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
-import { registerUser } from "../../services/authService";
+import { registerUser } from "../../store/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
 import { Link } from "react-router-dom";
@@ -14,23 +14,19 @@ const signupSchema = z.object({
 });
 
 function SignUpForm() {
-  const [serverError, setServerError] = useState("");
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data) => {
-    try {
-      const responseData = await registerUser(data);
-      console.log("Signup Successful", responseData);
-      setServerError("");
-    } catch (err) {
-      setServerError(err?.response?.data?.message || "Signup Failed");
-    }
+  const dispatch = useDispatch();
+  const { loaading, error, user } = useSelector((state) => state.auth);
+
+  const onSubmit = (data) => {
+    dispatch(registerUser(data));
   };
 
   return (
@@ -43,8 +39,8 @@ function SignUpForm() {
           Sign Up
         </h2>
 
-        {serverError && (
-          <p className="text-red-500 text-sm mb-4 text-center">{serverError}</p>
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
         )}
 
         {/* Name Field */}
@@ -128,8 +124,8 @@ function SignUpForm() {
         <div className="mb-4">
           <Button
             type="submit"
-            disabled={isSubmitting}
-            isLoading={isSubmitting}
+            disabled={loaading}
+            isLoading={loaading}
             fullWidth
           >
             Sign Up

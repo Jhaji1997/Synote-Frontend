@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
-import { loginUser } from "../../services/authService";
+import { loginUser } from "../../store/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import Button from "../ui/button.jsx";
 import { Link } from "react-router-dom";
@@ -13,23 +13,19 @@ const loginSchema = z.object({
 });
 
 function LoginForm() {
-  const [serverError, setServerError] = useState("");
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await loginUser(data);
-      console.log("Login successful", response);
-      setServerError("");
-    } catch (err) {
-      setServerError(err?.response?.data?.message || "Login failed");
-    }
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
   };
 
   return (
@@ -42,8 +38,8 @@ function LoginForm() {
           Login
         </h2>
 
-        {serverError && (
-          <p className="text-red-500 text-sm mb-4 text-center">{serverError}</p>
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
         )}
 
         {/* Email Field */}
@@ -98,12 +94,7 @@ function LoginForm() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          isLoading={isSubmitting}
-          fullWidth
-        >
+        <Button type="submit" disabled={loading} isLoading={loading} fullWidth>
           Login
         </Button>
 

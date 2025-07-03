@@ -22,4 +22,5 @@ export const refreshAccessToken = async () => {
 
 export const getCurrentUser = async () => {
   const response = await axios.get("/users/me");
+  return response.data;
 };

@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       await registerAPI(formData);
-      const user = getCurrentUser();
+      const user = await getCurrentUser();
       return user;
     } catch (err) {
       return thunkAPI.rejectWithValue(
@@ -27,7 +27,7 @@ export const loginUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       await loginAPI(formData);
-      const user = getCurrentUser();
+      const user = await getCurrentUser();
       return user;
     } catch (err) {
       return thunkAPI.rejectWithValue(
@@ -53,7 +53,7 @@ export const refreshToken = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await refreshAccessToken();
-      const user = getCurrentUser();
+      const user = await getCurrentUser();
       return user;
     } catch (err) {
       return thunkAPI.rejectWithValue("Token refresh failed");
@@ -65,7 +65,7 @@ export const fetchCurrentUser = createAsyncThunk(
   "auth/fetchCurrentUser",
   async (_, thunkAPI) => {
     try {
-      const user = getCurrentUser();
+      const user = await getCurrentUser();
       return user;
     } catch (err) {
       return thunkAPI.rejectWithValue("Token refresh failed");
