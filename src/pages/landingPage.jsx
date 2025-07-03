@@ -1,11 +1,11 @@
 import LandingMain from "../components/landingPage/landingMain.jsx";
-import LandingNav from "../components/landingPage/landingNav.jsx";
+import Nav from "../components/ui/Nav.jsx";
 import LandingFooter from "../components/landingPage/landingFooter.jsx";
 
 function LandingPage() {
   return (
     <>
-      <LandingNav></LandingNav>
+      <Nav></Nav>
       <LandingMain></LandingMain>
       <LandingFooter></LandingFooter>
     </>
