@@ -1,16 +1,24 @@
-import LandingPage from "./pages/landingPage.jsx";
+import NotFound from "./pages/notFound.jsx";
 import SignUpPage from "./pages/signUpPage.jsx";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/loginPage.jsx";
 import AvatarUpdatePage from "./pages/avatarUpdatePage.jsx";
+import ProtectedRoute from "./components/auth/protectedRoute.jsx";
+import HomeRoute from "./components/auth/homeRoute.jsx";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<HomeRoute />} />
+
       <Route path="/register" element={<SignUpPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/avatar" element={<AvatarUpdatePage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="/avatar" element={<AvatarUpdatePage />} />
+      </Route>
+
+      <Route path="*" element={<NotFound/>}/>
     </Routes>
   );
 }
