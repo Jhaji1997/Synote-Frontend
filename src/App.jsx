@@ -5,6 +5,7 @@ import LoginPage from "./pages/loginPage.jsx";
 import AvatarUpdatePage from "./pages/avatarUpdatePage.jsx";
 import ProtectedRoute from "./components/auth/protectedRoute.jsx";
 import HomeRoute from "./components/auth/homeRoute.jsx";
+import DashboardPage from "./pages/dashboardPage.jsx";
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route path="/avatar" element={<AvatarUpdatePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Route>
 
-      <Route path="*" element={<NotFound/>}/>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

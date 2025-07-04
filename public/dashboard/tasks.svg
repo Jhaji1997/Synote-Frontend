@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="20" fill="#F9FAFB"/>
+  <rect x="35" y="40" width="130" height="120" rx="12" fill="white" stroke="#D1D5DB" stroke-width="2"/>
+  
+  <!-- Task Item 1 -->
+  <rect x="50" y="60" width="12" height="12" rx="2" fill="#10B981"/>
+  <path d="M52 66L55 69L60 62" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <rect x="70" y="59" width="70" height="10" rx="3" fill="#E5E7EB"/>
+
+  <!-- Task Item 2 -->
+  <rect x="50" y="85" width="12" height="12" rx="2" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+  <rect x="70" y="84" width="60" height="10" rx="3" fill="#E5E7EB"/>
+
+  <!-- Task Item 3 -->
+  <rect x="50" y="110" width="12" height="12" rx="2" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+  <rect x="70" y="109" width="80" height="10" rx="3" fill="#E5E7EB"/>
+
+  <!-- Task Label -->
+  <text x="50%" y="185" text-anchor="middle" font-size="12" fill="#6B7280" font-family="sans-serif">Your Tasks</text>
+</svg>
