@@ -19,7 +19,7 @@ function App() {
         await dispatch(refreshToken()).unwrap();
         await dispatch(fetchCurrentUser());
       } catch (err) {
-        console.log("Auto Login failed: ", err?.message);
+        console.log("Auto Login failed: ", err);
       }
     };
 
