@@ -8,82 +8,90 @@ import {
   refreshAccessToken,
 } from "../services/authService.js";
 
+// Register
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (formData, thunkAPI) => {
+  async (formData, { rejectWithValue }) => {
     try {
       await registerAPI(formData);
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message || "SignUp Failed"
-      );
+      return rejectWithValue(err?.message || "Sign up failed");
     }
   }
 );
 
+// Login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (formData, thunkAPI) => {
+  async (formData, { rejectWithValue }) => {
     try {
       await loginAPI(formData);
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message || "Login Failed"
-      );
+      return rejectWithValue(err?.message || "Login failed");
     }
   }
 );
 
+// Logout
 export const logoutUser = createAsyncThunk(
-  "auth/logout",
-  async (_, thunkAPI) => {
+  "auth/logoutUser",
+  async (_, { rejectWithValue }) => {
     try {
       await logoutAPI();
       return true;
     } catch (err) {
-      return thunkAPI.rejectWithValue("Logout Failed");
+      return rejectWithValue(err?.message || "Logout failed");
     }
   }
 );
 
+// Refresh Token
 export const refreshToken = createAsyncThunk(
   "auth/refreshToken",
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
       await refreshAccessToken();
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return thunkAPI.rejectWithValue("Token refresh failed");
+      return rejectWithValue(
+        err?.message || "Token refresh failed"
+      );
     }
   }
 );
 
+// Fetch Current User
 export const fetchCurrentUser = createAsyncThunk(
   "auth/fetchCurrentUser",
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return thunkAPI.rejectWithValue("Token refresh failed");
+      return rejectWithValue(
+        err?.message || "Failed to fetch current user"
+      );
     }
   }
 );
 
+// Update Avatar
 export const updateAvatar = createAsyncThunk(
   "auth/updateAvatar",
-  async (avatarImage, thunkAPI) => {
+  async (avatarImage, { rejectWithValue }) => {
     try {
       await updateAvatarAPI(avatarImage);
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return thunkAPI.rejectWithValue("Avatar updation failed");
+      return rejectWithValue(
+        err?.message || "Failed to update avatar"
+      );
     }
   }
 );
@@ -182,11 +190,11 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateAvatar.fulfilled, (state,action) => {
+      .addCase(updateAvatar.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
       })
-      .addCase(updateAvatar.rejected, (state,action) => {
+      .addCase(updateAvatar.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to update avatar";
       });
