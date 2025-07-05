@@ -12,7 +12,7 @@ function LogoutButton() {
   const handleLogout = async () => {
     const result = await dispatch(logoutUser());
     if (logoutUser.fulfilled.match(result)) {
-      navigate("/login");
+      navigate("/");
     }
   };
 
@@ -23,4 +23,4 @@ function LogoutButton() {
   );
 }
 
-export default LogoutButton
+export default LogoutButton;

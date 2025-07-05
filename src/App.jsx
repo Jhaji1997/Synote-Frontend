@@ -6,8 +6,26 @@ import AvatarUpdatePage from "./pages/avatarUpdatePage.jsx";
 import ProtectedRoute from "./components/auth/protectedRoute.jsx";
 import HomeRoute from "./components/auth/homeRoute.jsx";
 import DashboardPage from "./pages/dashboardPage.jsx";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { refreshToken, fetchCurrentUser } from "./store/authSlice.js";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const rehydrateAuth = async () => {
+      try {
+        await dispatch(refreshToken()).unwrap();
+        await dispatch(fetchCurrentUser());
+      } catch (err) {
+        console.log("Auto Login failed: ", err?.message);
+      }
+    };
+
+    rehydrateAuth();
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<HomeRoute />} />
