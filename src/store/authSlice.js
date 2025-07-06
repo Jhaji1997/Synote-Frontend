@@ -58,9 +58,7 @@ export const refreshToken = createAsyncThunk(
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return rejectWithValue(
-        err?.message || "Token refresh failed"
-      );
+      return rejectWithValue(err?.message || "Token refresh failed");
     }
   }
 );
@@ -73,9 +71,7 @@ export const fetchCurrentUser = createAsyncThunk(
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return rejectWithValue(
-        err?.message || "Failed to fetch current user"
-      );
+      return rejectWithValue(err?.message || "Failed to fetch current user");
     }
   }
 );
@@ -89,9 +85,7 @@ export const updateAvatar = createAsyncThunk(
       const user = await getCurrentUser();
       return user;
     } catch (err) {
-      return rejectWithValue(
-        err?.message || "Failed to update avatar"
-      );
+      return rejectWithValue(err?.message || "Failed to update avatar");
     }
   }
 );
@@ -101,6 +95,7 @@ const initialState = {
   loading: false,
   error: null,
   isAuthenticated: false,
+  authLoaded: false,
 };
 
 const authSlice = createSlice({
@@ -154,20 +149,24 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.authLoaded = true;
       })
       .addCase(fetchCurrentUser.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to fetch current user";
+        state.authLoaded = true;
       })
 
       // refresh token
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.authLoaded = true;
       })
       .addCase(refreshToken.rejected, (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        state.authLoaded = true;
       })
 
       // logout
