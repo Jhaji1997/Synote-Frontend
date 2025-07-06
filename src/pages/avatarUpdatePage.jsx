@@ -12,13 +12,13 @@ function AvatarUpdatePage() {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const navigate = useNavigate();
 
-  const handleCancel = () => navigate("/");
+  const handleCancel = () => navigate(-1);
 
   const handleSave = () => {
     if (selectedAvatar && selectedAvatar !== user.avatarImage) {
       dispatch(updateAvatar(selectedAvatar));
       setSelectedAvatar(null);
-      navigate("/");
+      navigate(-1);
     }
   };
 
