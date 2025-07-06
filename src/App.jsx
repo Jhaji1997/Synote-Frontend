@@ -6,6 +6,7 @@ import AvatarUpdatePage from "./pages/avatarUpdatePage.jsx";
 import ProtectedRoute from "./components/auth/protectedRoute.jsx";
 import HomeRoute from "./components/auth/homeRoute.jsx";
 import DashboardPage from "./pages/dashboardPage.jsx";
+import AllNotesPage from "./pages/allNotesPage.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { refreshToken, fetchCurrentUser } from "./store/authSlice.js";
@@ -36,6 +37,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/avatar" element={<AvatarUpdatePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/notes" element={<AllNotesPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
