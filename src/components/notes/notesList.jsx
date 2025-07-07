@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotes } from "../../store/notesSlice.js";
+import { getNotes,deleteNote } from "../../store/notesSlice.js";
 import { FiEdit, FiTrash, FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -62,7 +62,7 @@ function NotesList() {
                   <FiEdit />
                 </button>
                 <button
-                  onClick={() => console.log("Delete", note._id)}
+                  onClick={() => dispatch(deleteNote(note._id))}
                   className="text-red-500 hover:text-red-700 text-3xl"
                   title="Delete"
                 >

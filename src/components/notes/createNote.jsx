@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { createNote } from "../../store/notesSlice.js";
 import { useNavigate } from "react-router-dom";
 
-function CreateNotePage() {
+function CreateNote() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(null);
   const dispatch = useDispatch();
@@ -63,4 +63,4 @@ function CreateNotePage() {
   );
 }
 
-export default CreateNotePage;
+export default CreateNote;
