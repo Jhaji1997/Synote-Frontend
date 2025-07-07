@@ -8,6 +8,7 @@ import HomeRoute from "./components/auth/homeRoute.jsx";
 import DashboardPage from "./pages/dashboardPage.jsx";
 import AllNotesPage from "./pages/allNotesPage.jsx";
 import CreateNotePage from "./pages/createNotePage.jsx";
+import EditNotePage from "./pages/editNotePage.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { refreshToken, fetchCurrentUser } from "./store/authSlice.js";
@@ -40,6 +41,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/notes" element={<AllNotesPage />} />
         <Route path="/notes/new" element={<CreateNotePage />} />
+        <Route path="/notes/edit/:id" element={<EditNotePage/>}/>
       </Route>
 
       <Route path="*" element={<NotFound />} />

@@ -55,7 +55,7 @@ function NotesList() {
               {/* Icons */}
               <div className="absolute top-2 right-2 flex space-x-2">
                 <button
-                  onClick={() => navigate(`/notes/${note._id}/edit`)}
+                  onClick={() => navigate(`/notes/edit/${note._id}`)}
                   className="text-blue-500 hover:text-blue-700 text-3xl"
                   title="Edit"
                 >
