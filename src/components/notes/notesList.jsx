@@ -2,9 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotes } from "../../store/notesSlice.js";
 import { FiEdit, FiTrash, FiPlus } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function NotesList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const notes = useSelector((state) => state.notes.notes);
   const loading = useSelector((state) => state.notes.loading);
   const error = useSelector((state) => state.notes.error);
@@ -14,7 +17,16 @@ function NotesList() {
   }, [dispatch]);
 
   const handleCreateNote = () => {
-    console.log("Create Note");
+    navigate("/notes/new");
+  };
+
+  const getContentPreview = (content) => {
+    try {
+      const firstTextNode = content?.root?.children?.[0]?.children?.[0];
+      return firstTextNode?.text || "No preview available";
+    } catch {
+      return "Invalid content";
+    }
   };
 
   if (loading) return <p className="text-gray-500">Loading notes...</p>;
@@ -43,7 +55,7 @@ function NotesList() {
               {/* Icons */}
               <div className="absolute top-2 right-2 flex space-x-2">
                 <button
-                  onClick={() => console.log("Edit", note._id)}
+                  onClick={() => navigate(`/notes/${note._id}/edit`)}
                   className="text-blue-500 hover:text-blue-700 text-3xl"
                   title="Edit"
                 >
@@ -62,8 +74,8 @@ function NotesList() {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white pr-8">
                 {note.title}
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 mt-2">
-                {note.content}
+              <p className="text-gray-700 dark:text-gray-300 mt-2 text-sm line-clamp-3">
+                {getContentPreview(note.content)}
               </p>
             </div>
           ))}

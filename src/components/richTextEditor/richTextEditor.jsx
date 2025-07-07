@@ -10,7 +10,7 @@ import { HeadingNode } from "@lexical/rich-text";
 import Toolbar from "./toolbar.jsx";
 import theme from "../../constants/lexicalTheme.js";
 
-function RichTextEditor({ initialContent, onChange }) {
+function RichTextEditor({ initialContent, onChange,placeholder="Start typing" }) {
   const initialConfiguration = {
     namespace: "SynoteEditor",
     theme,
@@ -34,7 +34,7 @@ function RichTextEditor({ initialContent, onChange }) {
           }
           placeholder={
             <div className="text-gray-400 px-3 py-2 select-none">
-              Start typing...
+              {placeholder}
             </div>
           }
           ErrorBoundary={({ error }) => (

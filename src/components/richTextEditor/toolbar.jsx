@@ -85,6 +85,7 @@ function Toolbar() {
     <div className="flex flex-wrap items-center gap-2 mb-4 p-3 border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md">
       {/* Inline formatting */}
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
         className={getButtonStyle(isBold)}
         title="Bold"
@@ -92,6 +93,7 @@ function Toolbar() {
         <MdFormatBold size={20} />
       </button>
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
         className={getButtonStyle(isItalic)}
         title="Italic"
@@ -99,6 +101,7 @@ function Toolbar() {
         <MdFormatItalic size={20} />
       </button>
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
         className={getButtonStyle(isUnderline)}
         title="Underline"
@@ -108,6 +111,7 @@ function Toolbar() {
 
       {/* Headings */}
       <button
+        type="button"
         onClick={() => applyHeading("h1")}
         className={getButtonStyle(blockType === "heading" && "h1")}
         title="Heading 1"
@@ -115,6 +119,7 @@ function Toolbar() {
         <MdLooksOne size={20} />
       </button>
       <button
+        type="button"
         onClick={() => applyHeading("h2")}
         className={getButtonStyle(blockType === "heading" && "h2")}
         title="Heading 2"
@@ -122,6 +127,7 @@ function Toolbar() {
         <MdLooksTwo size={20} />
       </button>
       <button
+        type="button"
         onClick={applyParagraph}
         className={getButtonStyle(blockType === "paragraph")}
         title="Paragraph"
@@ -131,6 +137,7 @@ function Toolbar() {
 
       {/* Lists */}
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND)}
         className={getButtonStyle(blockType === "ul")}
         title="Unordered List"
@@ -138,6 +145,7 @@ function Toolbar() {
         <MdFormatListBulleted size={20} />
       </button>
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND)}
         className={getButtonStyle(blockType === "ol")}
         title="Ordered List"
@@ -145,6 +153,7 @@ function Toolbar() {
         <MdFormatListNumbered size={20} />
       </button>
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(REMOVE_LIST_COMMAND)}
         className={getButtonStyle(false)}
         title="Remove List"
@@ -154,6 +163,7 @@ function Toolbar() {
 
       {/* History */}
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(UNDO_COMMAND)}
         className={getButtonStyle(false)}
         title="Undo"
@@ -161,6 +171,7 @@ function Toolbar() {
         <MdUndo size={20} />
       </button>
       <button
+        type="button"
         onClick={() => editor.dispatchCommand(REDO_COMMAND)}
         className={getButtonStyle(false)}
         title="Redo"
