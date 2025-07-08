@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Logo.svg";
 
 const Logo = ({ width = "40", height = "auto", className = "" }) => (
   <img
