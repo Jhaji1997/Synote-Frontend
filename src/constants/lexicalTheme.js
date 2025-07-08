@@ -7,8 +7,8 @@ const theme = {
   },
 
   list: {
-    ol: "list-decimal ml-5 mb-2 ",
-    ul: "list-disc ml-5 mb-2",
+    ol: "list-decimal ml-5 mb-2 text-gray-900 dark:text-white",
+    ul: "list-disc ml-5 mb-2 text-gray-900 dark:text-white",
     listitem: "mb-1",
   },
 
