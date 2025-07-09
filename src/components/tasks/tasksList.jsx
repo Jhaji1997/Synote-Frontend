@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTask, getTasks } from "../../store/tasksSlice.js";
+import { createTask, getTasks, updateTask } from "../../store/tasksSlice.js";
 import { FiEdit, FiTrash, FiPlus, FiCheck, FiX } from "react-icons/fi";
 
 function TaskList() {
-  const [showCreate, setShowCreate] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [newDueDate, setNewDueDate] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [taskTitle, setTaskTitle] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTaskId, setEditTaskId] = useState(null);
 
   const tasks = useSelector((state) => state.tasks.tasks);
   const loading = useSelector((state) => state.tasks.loading);
@@ -18,36 +20,64 @@ function TaskList() {
     dispatch(getTasks());
   }, [dispatch]);
 
-  const handleSaveTask = () => {
-    if (!newTaskTitle.trim()) return;
-
-    dispatch(
-      createTask({
-        title: newTaskTitle,
-        dueDate: newDueDate ? new Date(newDueDate).toISOString() : null,
-      })
-    );
-
-    setNewTaskTitle("");
-    setNewDueDate("");
-    setShowCreate(false);
+  const resetForm = () => {
+    setTaskTitle("");
+    setDueDate("");
+    setIsEditing(false);
+    setEditTaskId(null);
+    setShowForm(false);
   };
 
-  const handleCancel = () => {
-    setNewTaskTitle("");
-    setNewDueDate("");
-    setShowCreate(false);
+  const handleSaveTask = () => {
+    if (!taskTitle.trim()) return;
+
+    if (isEditing) {
+      dispatch(
+        updateTask({
+          taskId: editTaskId,
+          updatedTitle: taskTitle,
+          newDueDate: dueDate ? new Date(dueDate).toISOString() : null,
+        })
+      );
+    } else {
+      dispatch(
+        createTask({
+          title: taskTitle,
+          dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+        })
+      );
+    }
+
+    resetForm();
+  };
+
+  const handleEdit = (task) => {
+    setTaskTitle(task.title);
+    setDueDate(task.dueDate ? task.dueDate.split("T")[0] : "");
+    setIsEditing(true);
+    setEditTaskId(task._id);
+    setShowForm(true);
+  };
+
+  const handleCancel = () => resetForm();
+
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   };
 
   return (
     <div className="relative w-full p-4">
-      {/* Optional Create Task Input */}
-      {showCreate && (
+      {/* Form for create/edit */}
+      {showForm && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 mb-4 border border-blue-300 bg-blue-50 dark:bg-blue-950 dark:border-blue-600 rounded-md shadow">
           <input
             type="text"
-            value={newTaskTitle}
-            onChange={(e) => setNewTaskTitle(e.target.value)}
+            value={taskTitle}
+            onChange={(e) => setTaskTitle(e.target.value)}
             placeholder="Enter task title"
             className="flex-1 px-3 py-2 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -58,9 +88,8 @@ function TaskList() {
             </label>
             <input
               type="date"
-              value={newDueDate}
-              onChange={(e) => setNewDueDate(e.target.value)}
-              placeholder="Set due date (optional)"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
               className="px-3 py-2 text-sm rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
@@ -69,7 +98,7 @@ function TaskList() {
             <button
               onClick={handleSaveTask}
               className="text-green-600 hover:text-green-800 text-xl"
-              title="Save"
+              title={isEditing ? "Update Task" : "Save Task"}
             >
               <FiCheck />
             </button>
@@ -92,7 +121,7 @@ function TaskList() {
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
           <p className="text-xl text-gray-500 mb-4">No tasks yet</p>
           <button
-            onClick={() => setShowCreate(true)}
+            onClick={() => setShowForm(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <FiPlus className="text-lg" />
@@ -112,15 +141,22 @@ function TaskList() {
                 </h3>
                 {task.dueDate && (
                   <p className="text-sm text-gray-500 dark:text-gray-300">
-                    Due: {new Date(task.dueDate).toLocaleDateString()}
+                    Due: {formatDate(task.dueDate)}
                   </p>
                 )}
               </div>
               <div className="flex gap-4">
-                <button className="text-blue-500 hover:text-blue-700 text-xl">
+                <button
+                  onClick={() => handleEdit(task)}
+                  className="text-blue-500 hover:text-blue-700 text-xl"
+                  title="Edit"
+                >
                   <FiEdit />
                 </button>
-                <button className="text-red-500 hover:text-red-700 text-xl">
+                <button
+                  className="text-red-500 hover:text-red-700 text-xl"
+                  title="Delete"
+                >
                   <FiTrash />
                 </button>
               </div>
@@ -130,9 +166,9 @@ function TaskList() {
       )}
 
       {/* Floating Create Button */}
-      {!showCreate && (
+      {!showForm && (
         <button
-          onClick={() => setShowCreate(true)}
+          onClick={() => setShowForm(true)}
           title="Create Task"
           className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
         >

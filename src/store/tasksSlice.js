@@ -55,8 +55,9 @@ export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async ({ taskId, updatedTitle, newDueDate }, thunkAPI) => {
     try {
-      const task = await updateTaskAPI(taskId, updatedTitle, newDueDate);
-      return task;
+      await updateTaskAPI(taskId, updatedTitle, newDueDate);
+      const tasks = await getAllTasks();
+      return tasks;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err?.message || "Error updating the task"
@@ -155,7 +156,7 @@ const tasksSlice = createSlice({
       })
       .addCase(updateTask.fulfilled, (state, action) => {
         state.loading = false;
-        state.task = action.payload;
+        state.tasks = action.payload;
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.loading = false;
