@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createTask, getTasks, updateTask } from "../../store/tasksSlice.js";
+import {
+  createTask,
+  getTasks,
+  updateTask,
+  deleteTask,
+} from "../../store/tasksSlice.js";
 import { FiEdit, FiTrash, FiPlus, FiCheck, FiX } from "react-icons/fi";
 
 function TaskList() {
@@ -154,6 +159,7 @@ function TaskList() {
                   <FiEdit />
                 </button>
                 <button
+                  onClick={() => dispatch(deleteTask(task._id))}
                   className="text-red-500 hover:text-red-700 text-xl"
                   title="Delete"
                 >
