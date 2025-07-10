@@ -4,6 +4,7 @@ import {
   getSubtasks,
   createSubtask,
   updateSubtask,
+  deleteSubtask,
 } from "../../store/subtaskSlice";
 import { FiEdit, FiTrash, FiPlus, FiCheck, FiX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
@@ -128,7 +129,11 @@ function SubtaskList() {
                     <FiEdit />
                   </button>
                   <button
-                    onClick={() => console.log("Delete Subtask", subtask._id)}
+                    onClick={() =>
+                      dispatch(
+                        deleteSubtask({ taskId, subtaskId: subtask._id })
+                      )
+                    }
                     className="text-red-500 hover:text-red-700 text-xl"
                     title="Delete"
                   >
