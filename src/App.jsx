@@ -11,10 +11,10 @@ import CreateNotePage from "./pages/createNotePage.jsx";
 import EditNotePage from "./pages/editNotePage.jsx";
 import ViewNotePage from "./pages/viewNotePage.jsx";
 import AllTasksPage from "./pages/allTasksPage.jsx";
+import AllSubtasksPage from "./pages/allSubtasksPage.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { refreshToken, fetchCurrentUser } from "./store/authSlice.js";
-import SubtaskList from "./components/tasks/subtasksList.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function App() {
         <Route path="/notes/edit/:id" element={<EditNotePage />} />
         <Route path="/notes/:id" element={<ViewNotePage />} />
         <Route path="/tasks" element={<AllTasksPage />} />
-        <Route path="/tasks/:taskId/subtasks" element={<SubtaskList />} />
+        <Route path="/tasks/:taskId/subtasks" element={<AllSubtasksPage />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
