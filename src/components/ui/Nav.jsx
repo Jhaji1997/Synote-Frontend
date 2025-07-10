@@ -17,9 +17,6 @@ function Nav() {
       <div className="relative group cursor-pointer flex items-center text-2xl sm:text-3xl font-Exo-2 font-medium italic text-blue-400">
         Synote
         <Logo width="22" className="ml-2 mt-1 sm:w-[25px]" />
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max px-3 py-1 text-sm bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity">
-          Go to landing page
-        </div>
       </div>
 
       {/* Desktop Nav Buttons */}
