@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubtasks, createSubtask } from "../../store/subtaskSlice";
+import {
+  getSubtasks,
+  createSubtask,
+  updateSubtask,
+} from "../../store/subtaskSlice";
 import { FiEdit, FiTrash, FiPlus, FiCheck, FiX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 
@@ -9,6 +13,8 @@ function SubtaskList() {
 
   const [showForm, setShowForm] = useState(false);
   const [subtask, setSubtask] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editSubtaskId, setEditSubtaskId] = useState(null);
 
   const subtasks = useSelector((state) => state.subtasks.subtasks);
   const loading = useSelector((state) => state.subtasks.loading);
@@ -24,19 +30,39 @@ function SubtaskList() {
 
   const resetForm = () => {
     setSubtask("");
+    setIsEditing(false);
+    setEditSubtaskId(null);
     setShowForm(false);
   };
 
   const handleSaveSubtask = () => {
     if (!subtask.trim()) return;
 
-    dispatch(createSubtask({ taskId, content: subtask }));
+    if (isEditing) {
+      dispatch(
+        updateSubtask({
+          taskId,
+          subtaskId: editSubtaskId,
+          updatedContent: subtask,
+        })
+      );
+    } else {
+      dispatch(createSubtask({ taskId, content: subtask }));
+    }
+
     resetForm();
+  };
+
+  const handleEdit = (subtask) => {
+    setSubtask(subtask.content);
+    setEditSubtaskId(subtask._id);
+    setIsEditing(true);
+    setShowForm(true);
   };
 
   return (
     <div className="relative w-full p-4">
-      {/* Form for creating subtask */}
+      {/* Form for create/edit subtask */}
       {showForm && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 mb-4 border border-green-300 bg-green-50 dark:bg-green-950 dark:border-green-600 rounded-md shadow">
           <input
@@ -50,7 +76,7 @@ function SubtaskList() {
             <button
               onClick={handleSaveSubtask}
               className="text-green-600 hover:text-green-800 text-xl"
-              title="Save Subtask"
+              title={isEditing ? "Update Subtask" : "Save Subtask"}
             >
               <FiCheck />
             </button>
@@ -65,7 +91,7 @@ function SubtaskList() {
         </div>
       )}
 
-      {/* 📋 Subtasks List */}
+      {/* Subtasks List */}
       {loading && <p className="text-gray-500">Loading subtasks...</p>}
       {error && <p className="text-red-500">Error: {error}</p>}
 
@@ -95,7 +121,7 @@ function SubtaskList() {
                 </h3>
                 <div className="flex gap-4">
                   <button
-                    onClick={() => console.log("Edit Subtask", subtask._id)}
+                    onClick={() => handleEdit(subtask)}
                     className="text-blue-500 hover:text-blue-700 text-xl"
                     title="Edit"
                   >
