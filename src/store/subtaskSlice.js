@@ -39,8 +39,9 @@ export const updateSubtask = createAsyncThunk(
   "subtasks/updateSubtask",
   async ({ taskId, subtaskId, updatedContent }, thunkAPI) => {
     try {
-      const subtask = await updateSubtaskAPI(taskId, subtaskId, updatedContent);
-      return subtask;
+      await updateSubtaskAPI(taskId, subtaskId, updatedContent);
+      const subtasks = await getSubtasksAPI(taskId);
+      return subtasks;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err?.message || "Error updating the subtask"
@@ -66,7 +67,6 @@ export const deleteSubtask = createAsyncThunk(
 
 const initialState = {
   subtasks: [],
-  subtask: null,
   loading: false,
   error: null,
 };
@@ -112,7 +112,7 @@ const subtaskSlice = createSlice({
       })
       .addCase(updateSubtask.fulfilled, (state, action) => {
         state.loading = false;
-        state.subtask = action.payload;
+        state.subtasks = action.payload;
       })
       .addCase(updateSubtask.rejected, (state, action) => {
         state.loading = false;

@@ -7,6 +7,7 @@ import {
   deleteTask,
 } from "../../store/tasksSlice.js";
 import { FiEdit, FiTrash, FiPlus, FiCheck, FiX } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 function TaskList() {
   const [showForm, setShowForm] = useState(false);
@@ -149,6 +150,13 @@ function TaskList() {
                     Due: {formatDate(task.dueDate)}
                   </p>
                 )}
+                {/* ✅ Link to subtasks */}
+                <Link
+                  to={`/tasks/${task._id}/subtasks`}
+                  className="mt-2 inline-block text-blue-500 hover:underline text-sm"
+                >
+                  View Subtasks
+                </Link>
               </div>
               <div className="flex gap-4">
                 <button
